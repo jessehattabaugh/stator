@@ -1,0 +1,19 @@
+{
+  "name": "rxdux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessehattabaugh/rxdux.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jessehattabaugh/rxdux/issues"
+  },
+  "homepage": "https://github.com/jessehattabaugh/rxdux#readme"
+}
