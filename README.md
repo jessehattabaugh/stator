@@ -9,6 +9,6 @@ So I set out to implement a system similar to Redux by accumulating regular DOM 
 * [x] accumulate events into a state object
 * [x] render state to a vdom element
 * [x] delete items
-* [ ] record events to localstorage
-* [ ] replay events when the user reloads the page
+* [x] record events to localstorage
+* [x] replay events when the user reloads the page
 * [ ] undo last event
