@@ -1,7 +1,7 @@
 {
-  "name": "rxdux",
+  "name": "stator",
   "version": "0.0.0",
-  "description": "state reduced from events",
+  "description": "state accumulated from DOM events",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
