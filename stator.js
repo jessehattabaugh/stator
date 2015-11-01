@@ -23,9 +23,6 @@ function Stator(element, events, translator, accumulator) {
       // translate the event into an action
       let action = translator(ev);
 
-      // save the action in localstorage for later playback
-      let actions = JSON.parse(localStorage.getItem('actions'));
-
       // todo: move undo code to method so users can chose their own events
       if (action.type == 'undo') {
         let undid = actions.pop();
