@@ -1,2 +1,5 @@
 *.log
 node_modules
+
+# Build products
+bundle.js

@@ -43,4 +43,5 @@ function Stator(element) {
     _transformers[type] = transformer;
     _accumulators[type] = accumulator;
   };
+
 }
