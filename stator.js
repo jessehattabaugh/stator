@@ -1,57 +1,46 @@
 'use strict';
 
-const rx = require('rx');
+const Bacon = require('baconjs');
 
 module.exports = Stator;
 
+/** Stator - constructs an object that can subscribe to DOM events on an element 
+* and transform a state object in response. 
+* @constructor
+*/
 function Stator(element) {
+  this._root = element;
+  var _accumulators = {};
+  var _transformers = {};
+  this.initialState = {type:'', todos: []};
+  
+  // event streams will be added to this by observe
+  var _bus = new Bacon.Bus();
+  
+  /** stream - an observable property which emits a state object after every event */
+  this.stream = _bus.scan(this.initialState, function (previousState, ev) {
+    
+    // transform the event into an action using the user supplied transformer
+    let action = Object.assign({type: ev.type}, _transformers[ev.type](ev));
+    
+    // transform the previous state using the user supplied accumulator 
+    return _accumulators[ev.type](previousState, action);
+    
+  });
+  
+  /** observe - registers an event listener, along with an event transformer, 
+  * and an action accumulator that will be run when the event occurs.
+  * @param type (string), the event type to listen for
+  * @param transformer (function), takes an event and returns an action to pass 
+  * to the accumulator
+  * @param accumulator (function), takes the previous state, and an action and 
+  * returns a new state
+  */
+  this.observe = function (type, transformer, accumulator) {
+    _bus.plug(Bacon.fromEvent(this._root, type));
 
-  this.element = element;
-  this.accumulators = [];
-  this.translators = [];
-
-  // reset localStorage
-  //localStorage.setItem('actions', JSON.stringify([]));
-
-  // load old actions from localstorage
-  //let actions = JSON.parse(localStorage.getItem('actions'));
-  let actions = [];
-
-  // if there were none, create an empty array to store them in
-  //if (Object.prototype.toString.call(actions) !== '[object Array]')
-  //  actions = [];
-
-  this.initialState = actions.reduce(function (state, action) {
-    return this.accumulators[action.type](state, action);
-  }, {type:'', todos: []});
-
-  this.stream = rx.Observable.empty()
-    .scan(function (prev, ev) {
-      console.info('event occurred');
-      // translate the event into an action
-      let action = {type: ev.type}.append(this.translators[ev.type](ev));
-
-      // todo: move undo code to method so users can chose their own events
-      //if (action.type == 'undo') {
-        //let undid = actions.pop();
-        //console.log(`undoing ${undid.type}`);
-        //localStorage.setItem('actions', JSON.stringify(actions));
-        //return actions.reduce(accumulator, {type:'', todos: []});
-      //}
-      //else {
-        //actions.push(action);
-        //localStorage.setItem('actions', JSON.stringify(actions));
-        return this.accumulators[action.type](prev, action);
-      //}
-
-    }, this.initialState);
-}
-
-Stator.prototype.observe = function (type, translate, accumulate) {
-  console.dir(arguments);
-  this.stream.merge(rx.Observable.fromEvent(this.element, type));
-
-  // todo: push these onto a stack so that events can have multiple
-  this.translators[type] = translate;
-  this.accumulators[type] = accumulate;
+    // todo: push these onto a stack so that there can be multiple events of each type
+    _transformers[type] = transformer;
+    _accumulators[type] = accumulator;
+  };
 }
