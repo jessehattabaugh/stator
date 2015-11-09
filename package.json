@@ -1,6 +1,6 @@
 {
   "name": "stator",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "state accumulated from DOM events",
   "main": "index.js",
   "scripts": {
