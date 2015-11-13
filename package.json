@@ -1,11 +1,11 @@
 {
   "name": "stator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "state accumulated from DOM events",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "wzrd index.js:bundle.js -- -t babelify",
+    "start": "cd example && wzrd main.js -- -t babelify",
     "predeploy": "browserify index.js -o bundle.js -t babelify",
     "deploy": "surge"
   },
@@ -20,11 +20,12 @@
   },
   "homepage": "https://github.com/jessehattabaugh/stator#readme",
   "dependencies": {
-    "babelify": "^7.0.2",
+    "babel-preset-es2015": "^6.1.2",
+    "babelify": "^7.2.0",
+    "baconjs": "^0.7.80",
     "browserify": "^12.0.1",
     "dom-events": "^0.1.1",
-    "rx": "^4.0.6",
-    "surge": "^0.17.1",
+    "surge": "^0.17.2",
     "virtual-dom": "^2.1.1",
     "wzrd": "^1.3.1"
   }
