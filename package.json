@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd example && wzrd main.js -- -t babelify",
-    "predeploy": "browserify index.js -o bundle.js -t babelify",
-    "deploy": "surge"
+    "start": "cd example && wzrd --path example main.js -- -t babelify",
+    "predeploy": "cd example && browserify main.js -o app.js -t babelify",
+    "deploy": "surge -p example -d stator.surge.sh"
   },
   "repository": {
     "type": "git",
